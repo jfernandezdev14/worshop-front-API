@@ -1,4 +1,6 @@
 
+import os
+import tornado.httpserver
 from tornado.web import Application, RequestHandler
 from tornado.ioloop import IOLoop
 import json
@@ -36,5 +38,7 @@ def make_app():
   
 if __name__ == '__main__':
     app = make_app()
-    app.listen(3001)
-    IOLoop.instance().start()
+    http_server = tornado.httpserver.HTTPServer(app)
+    port = int(os.environ.get("PORT", 5000))
+    http_server.listen(port)
+    tornado.ioloop.IOLoop.instance().start()
