@@ -6,15 +6,18 @@ from tornado.ioloop import IOLoop
 import json
 items=[]
 
+#LoanDecision class, it defines the logic of the financial process and it publish the endpoints of the app
 class LoanDecision(RequestHandler):
   def get(self):
   	self.write("Hello world")
 
+  	#Function that sets the headers to handle CORS request and responses
   def set_default_headers(self):
   	self.set_header("Access-Control-Allow-Origin", "*")
   	self.set_header("Access-Control-Allow-Headers", "x-requested-with,access-control-allow-origin,authorization,content-type")
   	self.set_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
 
+#Function that defines the POST service and contains the logic of the financial analysis
   def post(self):
   	print(self.request.body)
   	var = json.loads(self.request.body)
@@ -33,9 +36,11 @@ class LoanDecision(RequestHandler):
   	print(decision)
   	self.write({'decision':decision})
 
+ #Function that filters the OPTIONS service and let the request to attempt method it requires
   def options(self):
   	pass
 
+#Function that creates the endpoint of the app
 def make_app():
   urls = [
     ("/api/loandecision/", LoanDecision)
